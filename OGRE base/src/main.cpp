@@ -4,6 +4,9 @@
 #include <iostream>
 
 #include "InputManager.h"  //the pre-built input handling class
+#include "Terrain.h" // terrain header
+#include "Timer.h" // Timer header
+#include "CameraListener.h" // using events for camera control
 #include <windows.h>
 
 using namespace Ogre;
@@ -11,9 +14,11 @@ using namespace Ogre;
 #ifdef _DEBUG
 #pragma comment(lib, "OgreMain_d.lib")
 #pragma comment(lib, "OIS_d.lib")
+#pragma comment (lib, "OgreTerrain_d.lib") // terrain stuff
 #else
 #pragma comment(lib, "OgreMain.lib")
 #pragma comment(lib, "OIS.lib")
+#pragma comment(lib, "OgreTerrain.lib")
 #endif
 
 
@@ -90,6 +95,10 @@ INT WINAPI WinMain (
 		// We can initialize Root here if we want. "false" tells Root NOT to create
 		// a render window for us
 		root->initialise(false);
+
+		// wireframe mode
+		bool bWireFrameMode = false;
+		int yOffset = 100;
 
 		// set up the render window with all default params
 		RenderWindow *window = root->createRenderWindow(
@@ -189,7 +198,7 @@ INT WINAPI WinMain (
 		
 		// second node
 		Viewport *bvp = window->addViewport(bCamera,1);
-		bvp->setDimensions(0.2f, 0.2f, 0.2f, 0.2f);
+		bvp->setDimensions(0.0f, 0.0f, 0.2f, 0.2f);
 		bCamera->setAspectRatio((float)bvp->getActualWidth() / (float) bvp->getActualHeight());
 		bCamera->setFarClipDistance(1500.0f);
 		bCamera->setNearClipDistance(5.0f);
@@ -215,6 +224,7 @@ INT WINAPI WinMain (
 		Ogre::MovablePlane* pPlane;
 		Ogre::Entity* pPlaneEnt;
 		Ogre::SceneNode* pPlaneNode;
+
 		pPlane = new Ogre::MovablePlane("Plane");
 		pPlane->d = 0;
 		pPlane->normal = Ogre::Vector3::UNIT_Y;
@@ -230,11 +240,21 @@ INT WINAPI WinMain (
 		mInputMgr->initialise( window );
 
 
+		// Initialising terrain
+		CTerrain terrain(sceneMgr, light);
+
 		// Run the manual render loop. 
 		// quit out of the loop using the Q key
 		bool bRenderLoop = true; 
 
+		CCameraListener * pCameraListener = new CCameraListener(cameraNode);
+		root->addFrameListener(pCameraListener);
+		mInputMgr->addMouseListener(pCameraListener, "CameraListener"); // Mouse listener
+		mInputMgr->addKeyListener(pCameraListener, "CameraKeyListener");
+
 		while (bRenderLoop && window->isActive()) {
+
+			float dt = CTimer::Instance()->Getdt();
 
 			//refresh input system
 			mInputMgr->capture();
@@ -268,6 +288,79 @@ INT WINAPI WinMain (
 			}
 
 
+			// Player WASD ///////////////////////////////////////////
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_S))
+			{
+				mPlayerNode->translate(0,0, 50*dt);
+			}
+
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_W))
+			{
+				mPlayerNode->translate(0,0, -50*dt);
+			}
+
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_A))
+			{
+				mPlayerNode->translate(-50*dt,0, 0);
+			}
+
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_D))
+			{
+				mPlayerNode->translate(50*dt,0, 0);
+			}
+			///////////////////////////////////////////////////////////
+
+			// Camera IKJL ////////////////////////////////////////////
+			/*
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_I))
+			{
+				cameraNode->translate(0,0, -50*dt, Ogre::SceneNode::TS_LOCAL);
+			}
+
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_K))
+			{
+				cameraNode->translate(0,0, 50*dt, Ogre::SceneNode::TS_LOCAL);
+			}
+			
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_J))
+			{
+				cameraNode->translate(-50*dt,0, 0, Ogre::SceneNode::TS_LOCAL);
+			}
+
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_L))
+			{
+				cameraNode->translate(50*dt,0, 0, Ogre::SceneNode::TS_LOCAL);
+			}
+			*/
+			///////////////////////////////////////////////////////////
+
+			// Wireframe mode /////////////////////////////////////////
+			if (mInputMgr->getKeyboard()->isKeyDown(OIS::KC_1))
+			{
+				if (bWireFrameMode)
+				{
+					bWireFrameMode=0;
+					camera->setPolygonMode(Ogre::PolygonMode::PM_SOLID);
+				}
+				else
+				{
+					bWireFrameMode=1;
+					camera->setPolygonMode(Ogre::PolygonMode::PM_WIREFRAME);
+				}
+			}
+
+			///////////////////////////////////////////////////////////
+
+			//getting objects to sit on terrain
+			//Objects terrain-position updated constantly
+			float height= terrain.m_pTerrainGroup->getHeightAtWorldPosition(mPlayerNode->getPosition().x, mPlayerNode->getPosition().y , mPlayerNode->getPosition().z);
+			float penguinHeight= terrain.m_pTerrainGroup->getHeightAtWorldPosition(mPenguinNode->getPosition().x, mPenguinNode->getPosition().y , mPenguinNode->getPosition().z); 
+			float boxHeight= terrain.m_pTerrainGroup->getHeightAtWorldPosition(mBoxNode->getPosition().x, mBoxNode->getPosition().y , mBoxNode->getPosition().z); 
+
+			mPlayerNode->setPosition(mPlayerNode->getPosition().x, height, mPlayerNode->getPosition().z);
+			mPenguinNode->setPosition(mPenguinNode->getPosition().x, penguinHeight, mPenguinNode->getPosition().z);
+			mBoxNode->setPosition(mBoxNode->getPosition().x, boxHeight, mBoxNode->getPosition().z);
+			//cameraNode->setPosition(cameraNode->getPosition().x, height+yOffset, cameraNode->getPosition().z);
 		}
 	}
 	catch (Exception &e) {
