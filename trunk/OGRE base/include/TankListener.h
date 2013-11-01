@@ -4,14 +4,14 @@
 #include <OISMouse.h>
 #include <OISKeyboard.h>
 
-class CCameraListener :
+class CTankListener :
 	public Ogre::FrameListener,
 	public OIS::MouseListener,
 	public OIS::KeyListener
 {
 public:
-	CCameraListener(Ogre::SceneNode * pCameraNode_);
-	~CCameraListener(void);
+	CTankListener(Ogre::SceneNode * pHullNode_, Ogre::SceneNode * pTurretNode_, Ogre::SceneNode* pGunNode_);
+	~CTankListener(void);
 
 	//inherited from FrameListener
 	bool frameStarted(const Ogre::FrameEvent& evt);
@@ -27,13 +27,14 @@ public:
 	bool keyPressed(const OIS::KeyEvent &arg);
 	bool keyReleased(const OIS::KeyEvent &arg);	
 
-	float m_fowardSpeed;
-	float m_strafeSpeed;
+	float speed;
+	bool m_turretYaw;
+	bool m_gunPitch;
 
-	bool moveTank;
-	
 private:
-	Ogre::SceneNode * m_pCameraNode;
+	Ogre::SceneNode * m_pHullNode;
+	Ogre::SceneNode * m_pTurretNode;
+	Ogre::SceneNode * m_pGunNode;
 
 
 };

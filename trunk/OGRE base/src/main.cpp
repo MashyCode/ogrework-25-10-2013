@@ -7,6 +7,7 @@
 #include "Terrain.h" // terrain header
 #include "Timer.h" // Timer header
 #include "CameraListener.h" // using events for camera control
+#include "TankListener.h"
 #include <windows.h>
 
 using namespace Ogre;
@@ -156,31 +157,57 @@ INT WINAPI WinMain (
 		Ogre::SceneNode * mPlayerNode = sceneMgr->getRootSceneNode()->createChildSceneNode("PlayerNode");
 		Ogre::SceneNode * mPenguinNode = sceneMgr->getRootSceneNode()->createChildSceneNode("PenguinNode");
 		Ogre::SceneNode * mBoxNode = sceneMgr->getRootSceneNode()->createChildSceneNode("BoxNode");
+		
+		// Create tank
+		//Ogre::SceneNode * mTankNode = sceneMgr ->getRootSceneNode()->createChildSceneNode("TankNode");
+		Ogre::SceneNode * mHullNode = sceneMgr ->getRootSceneNode()->createChildSceneNode("HullNode");
+		Ogre::SceneNode * mTurretNode = mHullNode->createChildSceneNode("TurretNode");
+		Ogre::SceneNode * mGunNode = mTurretNode->createChildSceneNode("GunNode");
 
+		
 
 		//set initial position for player
 		mPlayerNode->translate(0,0,0);
 		mPenguinNode->translate(150,100,0);
 		mBoxNode->translate(100,0,0);
 
+		//mTankNode->translate(0, 200, 0);
+		mHullNode->translate(0,200,0);
+		mTurretNode->translate(0,2, 0);
+		mGunNode->translate(0,0,1);
+
 		//rotate it about a vertical axis if desired		
 		mPlayerNode->rotate(Vector3::UNIT_Y,Ogre::Degree(180),Ogre::Node::TS_LOCAL);
 		mPenguinNode->rotate(Vector3::UNIT_Y, Ogre::Degree(0), Ogre::Node::TS_LOCAL);
 		mBoxNode->rotate(Vector3::UNIT_Y, Ogre::Degree(0), Ogre::Node::TS_LOCAL);
 
+
+
 		//load model
 		Entity* ninjaMesh = sceneMgr->createEntity("ninja", "ninja.mesh");
+
+		Entity* hullMesh = sceneMgr->createEntity("hull", "hull.mesh");
+		Entity* turretMesh = sceneMgr->createEntity("turret", "turret.mesh");
+		Entity* gunMesh = sceneMgr->createEntity("gun", "gun.mesh");
+		
 		Entity* penguinMesh = sceneMgr->createEntity("penguin", "penguin.mesh");
 		Entity* boxNode = sceneMgr->createEntity("box", "Box001.mesh");
 
 		//attach model to mPlayerNode 
 		mPlayerNode->attachObject(ninjaMesh);
+
+		mHullNode->attachObject(hullMesh);
+		mTurretNode->attachObject(turretMesh);
+		mGunNode->attachObject(gunMesh);
+
 		mPenguinNode->attachObject(penguinMesh);
 		mBoxNode->attachObject(boxNode);
 
 		//set player to cast shadows
 		ninjaMesh->setCastShadows(true);
-
+		//hullMesh->setCastShadows(true);
+		//turretMesh->setCastShadows(true);
+		//gunMesh->setCastShadows(true);
 
 
 		// create a single camera, and a viewport that takes up the whole window (default behavior)
@@ -251,6 +278,13 @@ INT WINAPI WinMain (
 		root->addFrameListener(pCameraListener);
 		mInputMgr->addMouseListener(pCameraListener, "CameraListener"); // Mouse listener
 		mInputMgr->addKeyListener(pCameraListener, "CameraKeyListener");
+
+		//CTankListener * pTankListener = new CTankListener(mHullNode, mTurretNode, mGunNode);
+		CTankListener* pTankListener = new CTankListener(mHullNode, mTurretNode, mGunNode);
+		root->addFrameListener(pTankListener);
+		mInputMgr->addKeyListener(pTankListener, "TankKeyListener");
+		mInputMgr->addMouseListener(pTankListener, "TankMouseListener");
+
 
 		while (bRenderLoop && window->isActive()) {
 
