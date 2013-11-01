@@ -4,6 +4,9 @@ CCameraListener::CCameraListener(Ogre::SceneNode * pCameraNode_)
 {
 	m_pCameraNode=pCameraNode_;
 	m_fowardSpeed = 0.0f;
+	m_strafeSpeed = 0.0f;
+
+	moveTank = false;
 }
 
 CCameraListener::~CCameraListener(void)
@@ -15,17 +18,20 @@ CCameraListener::frameStarted(const Ogre::FrameEvent& evt)
 {
 	// evt should be considered the dt
 	m_pCameraNode-> translate(0,0, m_fowardSpeed*evt.timeSinceLastFrame, Ogre::SceneNode::TS_LOCAL);
+	m_pCameraNode-> translate(m_strafeSpeed*evt.timeSinceLastFrame, 0, 0, Ogre::SceneNode::TS_LOCAL);
 	return true;
 }
 
 bool 
 CCameraListener::mouseMoved( const OIS::MouseEvent &arg )
 {
-	float mRotate = 0.95f;
+	if (moveTank == false){
+		float mRotate = 0.75f;
 
-	m_pCameraNode ->yaw(Ogre::Degree(-mRotate * arg.state.X.rel), Ogre::Node::TS_WORLD);
-	m_pCameraNode->pitch(Ogre::Degree(-mRotate*arg.state.Y.rel), Ogre::Node::TS_LOCAL);
-	return true;
+		m_pCameraNode ->yaw(Ogre::Degree(-mRotate * arg.state.X.rel), Ogre::Node::TS_WORLD);
+		m_pCameraNode->pitch(Ogre::Degree(-mRotate*arg.state.Y.rel), Ogre::Node::TS_LOCAL);
+		return true;
+	}
 }
 
 
@@ -57,6 +63,21 @@ CCameraListener::keyPressed(const OIS::KeyEvent &arg)
 		m_fowardSpeed = 50.0f;
 	}
 
+	if (arg.key==OIS::KC_J)
+	{
+		m_strafeSpeed = -50.0f;
+	}
+
+	if (arg.key==OIS::KC_L)
+	{
+		m_strafeSpeed = 50.0f;
+	}
+
+	if (arg.key==OIS::KC_Z || arg.key==OIS::KC_X)
+	{
+		moveTank = true;
+	}
+
 	return true;
 }
 
@@ -70,6 +91,15 @@ CCameraListener::keyReleased(const OIS::KeyEvent &arg)
 		m_fowardSpeed = 0.0f;
 	}
 
+	if (arg.key == OIS::KC_J || arg.key == OIS::KC_L)
+	{
+		m_strafeSpeed = 0.0f;
+	}
+
+	if (arg.key==OIS::KC_Z || arg.key==OIS::KC_X)
+	{
+		moveTank = false;
+	}
 
 	return true;
 }

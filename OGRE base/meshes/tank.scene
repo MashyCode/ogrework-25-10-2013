@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" unitType="meters" minOgreVersion="1.8" ogreMaxVersion="2.4.8" author="OgreMax Scene Exporter (www.ogremax.com)" application="3DS Max">
+    <environment>
+        <colourAmbient r="0.333333" g="0.333333" b="0.333333"/>
+        <colourBackground r="0" g="0" b="0"/>
+        <clipping near="0" far="100000"/>
+        <shadows technique="stencilAdditive" farDistance="0">
+            <colourShadow r="0" g="0" b="0"/>
+        </shadows>
+    </environment>
+    <nodes>
+        <node name="Hull">
+            <position x="0.00340229" y="4.91588e-005" z="-0.17843"/>
+            <scale x="1" y="1" z="1"/>
+            <rotation qx="0" qy="0" qz="0" qw="1"/>
+            <entity name="Hull" castShadows="true" receiveShadows="true" meshFile="Hull.mesh">
+                <vertexBuffer usage="dynamic" useShadow="true"/>
+                <indexBuffer usage="dynamic" useShadow="true"/>
+                <subentities>
+                    <subentity index="0" materialName="Material#5937"/>
+                </subentities>
+                <manualLods>
+                    <manualLod index="0">
+                        <subentities>
+                            <subentity index="0" materialName="ogremaxtank"/>
+                        </subentities>
+                    </manualLod>
+                    <manualLod index="1">
+                        <subentities>
+                            <subentity index="0" materialName="ogremaxtank"/>
+                        </subentities>
+                    </manualLod>
+                </manualLods>
+            </entity>
+            <node name="MG001">
+                <position x="-0.736595" y="1.70468" z="2.38199"/>
+                <scale x="1" y="1" z="1"/>
+                <rotation qx="0" qy="0" qz="0" qw="1"/>
+                <entity name="MG001" castShadows="true" receiveShadows="true" meshFile="MG001.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="ogremaxtank"/>
+                    </subentities>
+                </entity>
+            </node>
+            <node name="Turret">
+                <position x="0" y="2.11374" z="-8.04663e-007"/>
+                <scale x="1" y="1" z="1"/>
+                <rotation qx="0" qy="0" qz="0" qw="1"/>
+                <entity name="Turret" castShadows="true" receiveShadows="true" meshFile="Turret.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="ogremaxtank"/>
+                    </subentities>
+                    <manualLods>
+                        <manualLod index="0">
+                            <subentities>
+                                <subentity index="0" materialName="Material#5937"/>
+                            </subentities>
+                        </manualLod>
+                    </manualLods>
+                </entity>
+                <node name="Gun">
+                    <position x="-8.07922e-008" y="0.320289" z="1.34"/>
+                    <scale x="1" y="1" z="1"/>
+                    <rotation qx="0" qy="0" qz="0" qw="1"/>
+                    <entity name="Gun" castShadows="true" receiveShadows="true" meshFile="Gun.mesh">
+                        <subentities>
+                            <subentity index="0" materialName="Material#5937"/>
+                        </subentities>
+                    </entity>
+                </node>
+                <node name="lid">
+                    <position x="0.000578344" y="0.934809" z="-0.0221628"/>
+                    <scale x="1" y="1" z="1"/>
+                    <rotation qx="0" qy="0" qz="0" qw="1"/>
+                    <entity name="lid" castShadows="true" receiveShadows="true" meshFile="lid.mesh">
+                        <subentities>
+                            <subentity index="0" materialName="ogremaxtank"/>
+                        </subentities>
+                    </entity>
+                </node>
+            </node>
+        </node>
+        <node name="Direct001">
+            <position x="-16.6008" y="18.9805" z="9.43366"/>
+            <scale x="1" y="1" z="1"/>
+            <rotation qx="0.431743" qy="-0.295581" qz="0.152196" qw="0.83849"/>
+            <light name="Direct001" visible="true" affectDiffuse="true" affectSpecular="true" ambientOnly="false" type="directional" castShadows="true" power="1">
+                <rotation qx="-0.707107" qy="-0" qz="-0" qw="-0.707107"/>
+                <colourDiffuse r="1" g="1" b="1"/>
+                <colourSpecular r="1" g="1" b="1"/>
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0"/>
+            </light>
+            <trackTarget nodeName="Direct001.Target">
+                <localDirection x="0" y="-1" z="0"/>
+            </trackTarget>
+        </node>
+        <node name="Direct001.Target">
+            <position x="-9.00595" y="10.3381" z="0"/>
+            <scale x="1" y="1" z="1"/>
+            <rotation qx="0.707107" qy="0" qz="0" qw="0.707107"/>
+        </node>
+        <node name="Camera001">
+            <position x="10.9568" y="2.58065" z="15.9202"/>
+            <scale x="1" y="1" z="1"/>
+            <rotation qx="0.651737" qy="0.202083" qz="-0.186317" qw="0.706886"/>
+            <camera name="Camera001" fov="0.602416">
+                <rotation qx="-0.707107" qy="-0" qz="-0" qw="0.707107"/>
+                <clipping near="1" far="1000"/>
+            </camera>
+            <trackTarget nodeName="Camera001.Target">
+                <localDirection x="0" y="-1" z="0"/>
+            </trackTarget>
+        </node>
+        <node name="Camera001.Target">
+            <position x="5.29547" y="1.70966" z="6.82769"/>
+            <scale x="1" y="1" z="1"/>
+            <rotation qx="0" qy="0" qz="0" qw="1"/>
+        </node>
+    </nodes>
+</scene>
