@@ -137,7 +137,9 @@ INT WINAPI WinMain (
 		sceneMgr->setShadowTextureSize(1024);
 		
 		sceneMgr->setSkyBox(true, "Examples/SceneSkyBox1",500);
-		sceneMgr->setAmbientLight(ColourValue(1,1,1));
+
+		// The effect of lighting depends both the light settings and mateiral or surface setting
+		sceneMgr->setAmbientLight(ColourValue(1,1,1)); 
 
 		
 		//create directional light for terrain light map
@@ -147,8 +149,8 @@ INT WINAPI WinMain (
 		Ogre::Light* light = sceneMgr->createLight("testLight");
 		light->setType(Ogre::Light::LT_DIRECTIONAL);
 		light->setDirection(lightdir);
-		light->setDiffuseColour(Ogre::ColourValue::White);
-		light->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
+		light->setDiffuseColour(Ogre::ColourValue::White); // can change light colour here
+		light->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));  // can change light colour here
  
 		sceneMgr->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2));
 
@@ -185,6 +187,7 @@ INT WINAPI WinMain (
 
 		//load model
 		Entity* ninjaMesh = sceneMgr->createEntity("ninja", "ninja.mesh");
+		ninjaMesh->setMaterialName("examples/simple");
 
 		Entity* hullMesh = sceneMgr->createEntity("hull", "hull.mesh");
 		Entity* turretMesh = sceneMgr->createEntity("turret", "turret.mesh");
