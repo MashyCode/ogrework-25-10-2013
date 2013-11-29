@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\InitiateRagdoll.cs" />
      <Compile Include="Assets\Scripts\MouseMovement.cs" />
      <Compile Include="Assets\Scripts\TerrainFollowing.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
