@@ -1,7 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MouseMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js">
     <Files>
+      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" Line="19" Column="11" />
       <File FileName="Assets\Scripts\CameraController.cs" Line="6" Column="16" />
       <File FileName="Assets\Scripts\TerrainFollowing.cs" Line="16" Column="147" />
       <File FileName="Assets\Scripts\MouseMovement.cs" Line="6" Column="32" />
