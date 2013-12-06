@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\InitiateRagdoll.cs" />
      <Compile Include="Assets\Scripts\MouseMovement.cs" />
      <Compile Include="Assets\Scripts\TerrainFollowing.cs" />
+     <Compile Include="Assets\Scripts\ragdoll.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

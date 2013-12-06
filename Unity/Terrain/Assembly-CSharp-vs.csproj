@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\InitiateRagdoll.cs" />
      <Compile Include="Assets\Scripts\MouseMovement.cs" />
      <Compile Include="Assets\Scripts\TerrainFollowing.cs" />
+     <Compile Include="Assets\Scripts\ragdoll.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
